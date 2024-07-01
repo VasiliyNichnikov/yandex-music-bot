@@ -1,0 +1,25 @@
+version: '3.10'
+services:
+  server:
+    restart: always
+    build:  .
+    container_name: "cactus-discord-bot"
+    env_file:
+      - .env
+    volumes:
+      - .:/app
+    depends_on:
+      - mysql
+    entrypoint: ["./wait-for-it.sh", "mysql:3306", "--"]
+    command: ["sh", "boot.sh"]
+
+  mysql:
+    image: mysql:8.3.0
+    restart: always
+    container_name: "database"
+    env_file:
+      - .env.database
+    volumes:
+      - ./db:/docker-entrypoint-initdb.d/:ro
+    ports:
+      - "3308:3306"
