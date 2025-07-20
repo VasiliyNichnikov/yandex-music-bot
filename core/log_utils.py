@@ -35,7 +35,7 @@ log_handler = create_log_handler()
 # Добавляем логирование для discord.py
 for discord_logger_name in ("discord", "discord.http", "discord.gateway", "discord.client", "discord.voice_client"):
     discord_logger = logging.getLogger(discord_logger_name)
-    discord_logger.setLevel(logging.DEBUG)
+    discord_logger.setLevel(logging.INFO)
     discord_logger.addHandler(log_handler)
     discord_logger.propagate = False
 
