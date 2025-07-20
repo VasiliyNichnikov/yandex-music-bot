@@ -138,7 +138,7 @@ class UserThread:
             self._current_voice_client = await voice_channel.connect(timeout=10, reconnect=False, self_mute=True, self_deaf=True)
             self._player_facade.update_voice_client(self._current_voice_client)
             return True
-        except discord.errors.ClientException as error:
+        except (discord.errors.ClientException, Exception) as error:
             is_connected: bool = False
             if self._current_voice_client is not None:
                 is_connected = self._current_voice_client.is_connected()
@@ -221,6 +221,8 @@ class ThreadManager:
 
     async def init(self) -> None:
         guilds = self._bot.guilds
+
+        logger.info(f"Number found guilds: {len(guilds)}.")
 
         for guild in guilds:
             if guild.id in self._threads.keys():
